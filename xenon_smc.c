@@ -153,6 +153,32 @@ int xenon_smc_ana_read(uint8_t addr, uint32_t *val)
 	return 0;
 }
 
+int xenon_smc_i2c_write(uint16_t addr, uint8_t val)
+{
+	uint8_t buf[16];
+    memset(buf, 0, 16);
+	
+	int tmp=(addr>=0x200)?0x3d:0x39;
+
+    buf[0] = 0x11;
+	buf[1] = 0x20;
+	buf[3] = tmp | 0x80; //3d
+	
+	buf[6] = addr & 0xff; //3a
+	buf[7] = val;
+
+	xenon_smc_send_message(buf);
+
+	xenon_smc_receive_response(buf);
+	if (buf[1] != 0)
+	{
+		printf("xenon_smc_i2c_write failed, addr=%04x, err=%d\n", addr, buf[1]);
+		return -1;
+	}
+	
+	return 0;
+}
+
 void xenon_smc_set_led(int override, int value)
 {
 	uint8_t buf[16];
