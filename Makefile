@@ -46,7 +46,7 @@ OBJS = startup2.o main.o string.o vsprintf.o ctype.o time.o  \
 	cdrom.o xenos.o font_8x16.o xenos_init.o xenon_smc.o  $(USB_OBJS) \
 	./diskio.o
 
-BUILD = xell-serial xell-readcd xell-1f xell-xell
+BUILD = xell-serial xell-readcd xell-1f xell-2f xell-xell
 
 TARGETS = $(foreach name,$(BUILD),$(addprefix $(name).,bin elf elf32))
 
